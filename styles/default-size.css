@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap');
+
+:root {
+    --serif: 'Libre Baskerville', serif;
+    --sans: 'Inter', sans-serif;
+
+    --text-dark: #bdc0c2;
+    --background-dark: #111411;
+    --primary-dark: #7e8d57;
+    --secondary-dark: #616d54;
+    --accent-dark: #17333b;
+
+    --text-light: #111411;
+    --background-light: #eaebeb;
+    --primary-light: #5e6d37;
+    --secondary-light: #414d34;
+    --accent-light: #17333b;
+}
