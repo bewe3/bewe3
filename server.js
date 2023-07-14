@@ -7,10 +7,10 @@ const mongodb = require('./db/connect');
 const port = process.env.PORT || 8080;
 const app = express();
 
-app.use(express.static(path.join(__dirname, 'pages')));
-app.use(express.static(path.join(__dirname, 'styles')));
-app.use(express.static(path.join(__dirname, 'images')));
-app.use(express.static(path.join(__dirname, 'scripts')));
+app.use(express.static(path.join(__dirname, 'pages/')));
+app.use(express.static(path.join(__dirname, 'styles/')));
+app.use(express.static(path.join(__dirname, 'images/')));
+app.use(express.static(path.join(__dirname, 'scripts/')));
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
