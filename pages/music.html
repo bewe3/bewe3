@@ -10,16 +10,17 @@
     <title>Bryan Welton III</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css">
-    <link rel="stylesheet" href="./styles/default-size.css">
-    <link rel="stylesheet" href="./styles/medium-plus.css">
-    <link rel="stylesheet" href="./styles/medium.css">
-    <link rel="stylesheet" href="./styles/large.css">
+    <link rel="stylesheet" href="../styles/default-size.css">
+    <link rel="stylesheet" href="../styles/medium-plus.css">
+    <link rel="stylesheet" href="../styles/medium.css">
+    <link rel="stylesheet" href="../styles/large.css">
     <link rel="icon" type="image/x-icon" href="./favicon.ico">
-    <script src="./scripts/lazy.js"></script>
-    <script src="./scripts/navbar.js"></script>
+    <script src="../scripts/lazy.js"></script>
+    <script src="../scripts/navbar.js"></script>
+    <script src="../scripts/expand.js"></script>
 </head>
 
-<body>
+<body style="background-color: var(--text-dark);">
     <header>
         <div class="left-header"> <button class="navbar-toggle"><i class="fas fa-bars"></i></button> </div>
         <div class="center-header"></div>
@@ -33,17 +34,69 @@
         <hr>
         <ul>
             <li><a href="../index.html">Home</a></li>
-            <li><a href="../pages/fresh.html">Order</a></li>
-            <li><a href="../pages/about.html">About Us</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="music.html">Music</a></li>
+            <li><a href="contact.html">Contact</a></li>
         </ul>
         <hr>
-        <div class="social-media-icons"> <a href="https://www.facebook.com" target="about:blank"><i
-                    class="fab fa-facebook-f"></i></a> <a href="https://www.instagram.com" target="about:blank"><i
-                    class="fab fa-instagram"></i></a> <a href="https://www.twitter.com" target="about:blank"><i
-                    class="fab fa-twitter"></i></a> </div>
+        <div class="social-media-icons"> 
+            <a></a>
+            <a href="https://www.facebook.com/bewe333" target="about:blank"><i class="fab fa-facebook-f"></i></a> 
+            <a href="https://www.instagram.com/bewe3" target="about:blank"><i class="fab fa-instagram"></i></a> 
+            <a href="https://www.linkedin.com/in/bryan-welton-84b54b103/" target="about:blank"><i class="fab fa-linkedin"></i></a> 
+            <a></a>
+        </div>
     </nav>
-    <div>
-        hello
+    <div class="body">
+        <div class="card-container">
+            <div class="card">
+                <div class="card-image">
+                <a href="page.html">
+                    <img src="../images/alpenglow.png" alt="Alpenglow Preview" style="width: 100%; height: auto;">
+                </a>
+                </div>
+                <div class="card-content">
+                <h2 class="card-title">Alpenglow</h2>
+                <h3 class="card-subtitle">The Living World</h3>
+                <div class="card-description">
+                    <p>"Alpenglow" is the rosy tint of light that appears opposite the sun when is below the horizon. When the sun is below the horizon and blocked by the earth, the sunlight reflected off clouds appears brilliantly red on the ground. This phenomenon happens at both dawn and dusk, so this piece is aptly named because it feels like it opens with a sunrise and ends with a sunset. Plus, the piece is about reflection, and technically speaking, alpenglow is reflected sunlight.
+</p>
+                </div>
+                <div class="card-audio">
+                    <audio controls>
+                        <source src="../audios/Alpenglow.mp3" type="audio/mpeg">
+                    </audio>
+                </div>
+                    <div class="card-tags">
+                        <span class="tag">Contemporary</span>
+                        <span class="tag">Classical</span>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-image">
+                <a href="page.html">
+                    <img src="../images/cello.jpg" alt="Alpenglow Preview" style="width: 100%; height: auto;">
+                </a>
+                </div>
+                <div class="card-content">
+                <h2 class="card-title">Giocoso</h2>
+                <h3 class="card-subtitle">Cello Duet</h3>
+                <div class="card-description">
+                    <p>"Giocoso" is a vibrant and playful composition for two cellos, following a simple ABA structure. It begins with a bouncy melodic motif, accompanied by a rhythmic ostinato, creating a lively and energetic atmosphere. The melody switches between the cellos, maintaining a sense of interplay and rhythmic complexity. The B section slows down, featuring a duet in a minor key, evoking introspection and melancholic beauty. Returning to the A section, the bouncy theme reemerges, bringing back the initial exuberance. The piece concludes with a measure of giggles, followed by a final cadence, leaving a lasting impression of joy and whimsy. "Giocoso" showcases the cello's virtuosity and expressive capabilities, captivating listeners with its engaging structure and contrasting moods.</p>
+                </div>
+                <div class="card-audio">
+                    <audio controls>
+                        <source src="../audios/Giocoso.mp3" type="audio/mpeg">
+                    </audio>
+                </div>
+                    <div class="card-tags">
+                        <span class="tag">Contemporary</span>
+                        <span class="tag">Classical</span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 
