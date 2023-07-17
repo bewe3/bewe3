@@ -1,28 +1,19 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const path = require('path');
-
+const musicRoutes = require('./routes/music');
 const mongodb = require('./db/connect');
 
-const port = process.env.PORT || 8080;
 const app = express();
+const port = process.env.PORT || 8080;
 
-app.use(express.static(path.join(__dirname, 'pages')));
-app.use(express.static(path.join(__dirname, 'styles')));
-app.use(express.static(path.join(__dirname, 'images')));
-app.use(express.static(path.join(__dirname, 'scripts')));
+app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  next();
 });
 
-app
-  .use(bodyParser.json())
-  .use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    next();
-  })
-  .use('/', require('./routes'));
+app.use('/music', musicRoutes);
 
 mongodb.initDb((err) => {
   if (err) {
