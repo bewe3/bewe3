@@ -1,5 +1,5 @@
 window.addEventListener('DOMContentLoaded', (event) => {
-  fetch('./db/models/music') // Assuming this route matches your server-side route
+  fetch('./db/models/music')
     .then((response) => response.json())
     .then((data) => {
       const musicContainer = document.getElementById('music-container');
