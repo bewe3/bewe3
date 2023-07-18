@@ -1,0 +1,41 @@
+<form id="uploadForm">
+  <label for="id">ID:</label>
+  <input type="number" name="id" required />
+
+  <label for="title">Title:</label>
+  <input type="text" name="title" required />
+
+  <label for="subtitle">Subtitle:</label>
+  <input type="text" name="subtitle" required />
+
+  <label for="description">Description:</label>
+  <textarea name="description" rows="4" required></textarea>
+
+  <label for="previewImage">Preview Image:</label>
+  <input type="file" name="previewImage" accept=".png, .jpg, .jpeg" required />
+
+  <label for="audioFile">Audio File:</label>
+  <input type="file" name="audioFile" accept=".mp3" required />
+
+  <label for="tags">Tags (comma-separated):</label>
+  <input type="text" name="tags" />
+
+  <label for="gumroadLink">Gumroad Link:</label>
+  <input type="url" name="gumroadLink" />
+
+  <label for="isCommissioned">Is Commissioned:</label>
+  <input type="checkbox" name="isCommissioned" id="isCommissioned" />
+  
+  <div id="commissionedByField" style="display:none;">
+    <label for="commissionedBy">Commissioned By:</label>
+    <input type="text" name="commissionedBy" />
+  </div>
+
+  <label for="instrumentation">Instrumentation:</label>
+  <input type="text" name="instrumentation" />
+
+  <label for="duration">Duration:</label>
+  <input type="text" name="duration" />
+
+  <button type="submit">Upload</button>
+</form>
