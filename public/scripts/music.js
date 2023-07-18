@@ -1,5 +1,5 @@
 window.addEventListener('DOMContentLoaded', (event) => {
-  fetch('./db/models/music')
+  fetch('/music')
     .then((response) => response.json())
     .then((data) => {
       const musicContainer = document.getElementById('music-container');
