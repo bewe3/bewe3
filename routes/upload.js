@@ -1,30 +1,25 @@
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
-const { Storage } = require('@google-cloud/storage');
-const path = require('path');
-const MusicModel = require('../db/models/music');
+const { ObjectId } = require('mongodb');
+const connect = require('../db/connect');
+const { getAllMusicData } = require('../db/models/music');
 
-// Initialize Google Cloud Storage
-const storage = new Storage();
-const audioBucket = storage.bucket('welton-music');
-const imageBucket = storage.bucket('welton-music-images');
+const dotenv = require('dotenv');
+dotenv.config();
 
-// Configure multer for file uploads
-const upload = multer();
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 
-// Route to handle file uploads
 router.post(
   '/upload',
   upload.fields([
-    { name: 'previewImage', maxCount: 1 },
     { name: 'audioFile', maxCount: 1 },
+    { name: 'imageFile', maxCount: 1 },
   ]),
   async (req, res) => {
     try {
-      // Extract data from the form fields
       const {
-        id,
         title,
         subtitle,
         description,
@@ -32,67 +27,98 @@ router.post(
         gumroadLink,
         isCommissioned,
         commissionedBy,
-        instrumentation,
-        duration,
       } = req.body;
-
-      // Handling audio file upload
       const audioFile = req.files['audioFile'][0];
-      const audioBlobName =
-        Date.now() + '-' + path.basename(audioFile.originalname);
-      const audioBlob = audioBucket.file(audioBlobName);
-      const audioBlobStream = audioBlob.createWriteStream();
-      audioBlobStream.on('error', (error) => {
-        console.error('Error uploading audio file:', error);
-        res.status(500).json({ error: 'Failed to upload audio file' });
-      });
-      audioBlobStream.on('finish', async () => {
-        // Handling image file upload
-        const imageFile = req.files['previewImage'][0];
-        const imageBlobName =
-          Date.now() + '-' + path.basename(imageFile.originalname);
-        const imageBlob = imageBucket.file(imageBlobName);
-        const imageBlobStream = imageBlob.createWriteStream();
-        imageBlobStream.on('error', (error) => {
-          console.error('Error uploading image file:', error);
-          res.status(500).json({ error: 'Failed to upload image file' });
-        });
-        imageBlobStream.on('finish', async () => {
-          // Save the file information to the MongoDB database
-          try {
-            const musicData = await MusicModel.create({
-              id: parseInt(id),
-              title,
-              subtitle,
-              description,
-              previewImage: `https://storage.googleapis.com/${imageBucket.name}/${imageBlobName}`,
-              audioFileName: audioBlobName,
-              tags: tags.split(',').map((tag) => tag.trim()),
-              gumroadLink,
-              isCommissioned: isCommissioned === 'true',
-              commissionedBy:
-                isCommissioned === 'true' ? commissionedBy : undefined,
-              instrumentation,
-              duration,
-            });
-            res.json(musicData);
-          } catch (error) {
-            console.error('Error saving file to database:', error);
-            res.status(500).json({ error: 'Failed to save file information' });
-          }
-        });
+      const imageFile = req.files['imageFile'][0];
 
-        // Pipe the image file stream to the bucket's writable stream
-        fs.createReadStream(imageFile.path).pipe(imageBlobStream);
-      });
+      // Validate required fields
+      if (
+        !title ||
+        !subtitle ||
+        !description ||
+        !tags ||
+        !gumroadLink ||
+        !audioFile ||
+        !imageFile
+      ) {
+        return res.status(400).json({ error: 'Missing required fields' });
+      }
 
-      // Pipe the audio file stream to the bucket's writable stream
-      fs.createReadStream(audioFile.path).pipe(audioBlobStream);
+      // Optional field validation
+      if (isCommissioned && !commissionedBy) {
+        return res.status(400).json({
+          error: 'Commissioned by is required when isCommissioned is true',
+        });
+      }
+
+      const db = connect.getDb();
+      const musicCollection = db.collection('music');
+
+      // Save the files to Google Cloud Storage and get their URLs
+      // Your implementation for uploading to Google Cloud Storage goes here
+
+      // Save the data to MongoDB
+      const musicData = {
+        title,
+        subtitle,
+        description,
+        previewImage: 'image_file_url_here', // Replace with the image file URL
+        audioFileName: 'audio_file_url_here', // Replace with the audio file URL
+        tags: tags.split(',').map((tag) => tag.trim()), // Convert tags string to array
+        gumroadLink,
+        isCommissioned: Boolean(isCommissioned),
+        instrumentation: '', // Add any relevant data for the instrumentation field
+        commissionedBy: commissionedBy || '', // Optional field, default to empty string if not provided
+        duration: '', // Add any relevant data for the duration field
+      };
+
+      const result = await musicCollection.insertOne(musicData);
+      if (result.insertedCount === 1) {
+        const allMusicData = await getAllMusicData(); // Assuming you have a function to fetch all music data
+        return res.status(200).json(allMusicData);
+      } else {
+        return res
+          .status(500)
+          .json({ error: 'Failed to insert data into the database' });
+      }
     } catch (error) {
-      console.error('Error handling file upload:', error);
-      res.status(500).json({ error: 'Server error' });
+      console.error('Upload failed:', error);
+      return res
+        .status(500)
+        .json({ error: 'Upload failed. Please try again.' });
     }
   }
 );
+
+router.post('/delete', (req, res) => {
+  const { pieceId, password } = req.body;
+
+  // Validate the password for admin access
+  if (password !== process.env.SECRET_KEY) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+
+  // Convert the pieceId to an ObjectId
+  const objectId = new ObjectId(pieceId);
+
+  // Delete the piece from the database
+  const db = connect.getDb();
+  const musicCollection = db.collection('music');
+
+  musicCollection
+    .deleteOne({ _id: objectId })
+    .then(() => {
+      // Fetch and return the updated music data after deletion
+      getAllMusicData()
+        .then((musicData) => res.status(200).json(musicData))
+        .catch((error) =>
+          res.status(500).json({ error: 'Failed to fetch music data' })
+        );
+    })
+    .catch((error) => {
+      console.error('Deletion failed:', error);
+      res.status(500).json({ error: 'Deletion failed. Please try again.' });
+    });
+});
 
 module.exports = router;
