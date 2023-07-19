@@ -1,6 +1,3 @@
-const dotenv = require('dotenv');
-dotenv.config();
-
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('uploadForm');
   const commissionedByContainer = document.getElementById(
@@ -23,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const password = formData.get('password');
 
     // Validate password here (e.g., compare with the expected password)
-    if (password !== process.env.SECRET_KEY) {
+    if (password !== 'urmum111') {
       alert('Invalid password!');
       return;
     }
@@ -36,7 +33,12 @@ document.addEventListener('DOMContentLoaded', () => {
       method: 'POST',
       body: formData,
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
       .then((data) => {
         // Data uploaded successfully, do something if needed
         console.log('Upload successful:', data);

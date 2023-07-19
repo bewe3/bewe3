@@ -271,11 +271,11 @@ input[type='submit']:hover {
   max-width: 70%;
   margin: auto;
   margin-top: 125px;
-  padding: 1rem; 
+  padding: 1rem;
 }
 
 .card-container * {
-    font-family: inherit;
+  font-family: inherit;
 }
 
 /* Customize the card styles */
@@ -285,12 +285,14 @@ input[type='submit']:hover {
   border: 1px solid #ccc;
   border-radius: 5px;
   overflow: hidden;
-  background-color: var(--background-light)
+  background-color: var(--background-light);
 }
 
 .card-image {
   flex: 0 0 200px;
-  background-color: #f1f1f1;
+  width: 100%;
+  margin: auto;
+  display: block;
 }
 
 .card-content {
@@ -303,7 +305,7 @@ input[type='submit']:hover {
   font-size: 20px;
   font-weight: bold;
   margin: 0;
-    font-family: var(--sans);
+  font-family: var(--sans);
 }
 
 .card-subtitle {
@@ -327,7 +329,6 @@ input[type='submit']:hover {
 .card-tags {
   margin-top: 10px;
   text-align: right;
-  
 }
 
 .tag {
@@ -336,6 +337,7 @@ input[type='submit']:hover {
   padding: 0.5rem;
   border-radius: 5px;
   bottom: 0;
+  margin-left: 5px;
 }
 
 .audio-player {
@@ -346,6 +348,8 @@ input[type='submit']:hover {
   background-color: #f1f1f1;
   padding: 10px;
   border-radius: 5px;
+  margin-bottom: 50px;
+  right: 0;
 }
 
 .audio-player audio {
@@ -354,4 +358,10 @@ input[type='submit']:hover {
   border: 1px solid #ccc;
   border-radius: 3px;
   outline: none;
+}
+
+.buy-button {
+  background: var(--primary-light);
+  padding: 1rem;
+  margin-top: 50px;
 }

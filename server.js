@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const musicRoutes = require('./routes/music');
+const uploadRoutes = require('./routes/upload');
 const mongodb = require('./db/connect');
 
 const app = express();
@@ -14,6 +15,7 @@ app.use((req, res, next) => {
 });
 
 app.use('/music', musicRoutes);
+app.use('/upload', uploadRoutes);
 
 mongodb.initDb((err) => {
   if (err) {

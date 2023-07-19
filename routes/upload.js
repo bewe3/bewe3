@@ -90,35 +90,4 @@ router.post(
   }
 );
 
-router.post('/delete', (req, res) => {
-  const { pieceId, password } = req.body;
-
-  // Validate the password for admin access
-  if (password !== process.env.SECRET_KEY) {
-    return res.status(401).json({ error: 'Unauthorized' });
-  }
-
-  // Convert the pieceId to an ObjectId
-  const objectId = new ObjectId(pieceId);
-
-  // Delete the piece from the database
-  const db = connect.getDb();
-  const musicCollection = db.collection('music');
-
-  musicCollection
-    .deleteOne({ _id: objectId })
-    .then(() => {
-      // Fetch and return the updated music data after deletion
-      getAllMusicData()
-        .then((musicData) => res.status(200).json(musicData))
-        .catch((error) =>
-          res.status(500).json({ error: 'Failed to fetch music data' })
-        );
-    })
-    .catch((error) => {
-      console.error('Deletion failed:', error);
-      res.status(500).json({ error: 'Deletion failed. Please try again.' });
-    });
-});
-
 module.exports = router;
