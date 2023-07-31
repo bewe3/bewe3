@@ -7,7 +7,8 @@ const mongodb = require('./db/connect');
 const app = express();
 const port = process.env.PORT || 8080;
 
-app.use(express.static(path.join(__dirname, 'public')));
+// Step 1: Serve files from the root directory
+app.use(express.static(__dirname));
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -25,4 +26,9 @@ mongodb.initDb((err) => {
       console.log(`Connected to and listening on ${port}`);
     });
   }
+});
+
+// Step 2: Serve the index.html file for the root URL ("/")
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
