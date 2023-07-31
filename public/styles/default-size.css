@@ -338,25 +338,23 @@ input[type='submit']:hover {
   border-radius: 5px;
   bottom: 0;
   margin-left: 5px;
+  color: var(--text-dark);
 }
 
-.audio-player {
+.card-audio {
   display: flex;
   flex-direction: column;
-  width: 300px;
+  width: 80%;
   margin: 0 auto;
-  background-color: #f1f1f1;
+  background-color: var(--primary-light);
   padding: 10px;
   border-radius: 5px;
   margin-bottom: 50px;
   right: 0;
 }
 
-.audio-player audio {
+.card-audio audio {
   width: 100%;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 3px;
   outline: none;
 }
 
